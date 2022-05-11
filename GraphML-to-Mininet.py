@@ -515,7 +515,7 @@ for i in range(0, len(id_node_name_dict)):
 outputstring_to_be_exported += switch_addr
 
 if enable_stp:
-	stp_time = 25 + int(len(id_node_name_dict) * 1.2)
+	stp_time = 5 + int(len(id_node_name_dict))
 	outputstring_to_be_exported += outputstring_4b
 	stp_wait = ''
 	stp_wait += "    info( '\033[1;33m*** Expected time: "
@@ -532,7 +532,7 @@ if enable_stp:
 		stp_command += id_node_name_dict[str(i)]
 		stp_command += ".cmd('ovs-vsctl set bridge s"
 		stp_command += str(i+1)
-		stp_command += " stp_enable=true')\n"
+		stp_command += " rstp_enable=true')\n"
 		stp_active += stp_command
 
 	stp_active += '\n    time.sleep('
