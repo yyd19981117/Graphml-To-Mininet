@@ -26,21 +26,24 @@ python GraphML-to-Mininet.py -参数 参数值
 
 #### 批量操作
 
-./gentopo.sh
+./gen_topo.sh
 
 此操作会将当前文件夹下所有的.graphml格式文件全转换为Mininet拓扑，并存放在当前目录的/mini-topologies下。
+该脚本生成的拓扑默认开启STP协议，可删除gen_topo.sh中的“--stp”选项，以生成不启用STP协议的拓扑。
 
 #### 参数输入（仅对单次操作有效）
 
--f，-file：输入文件的名称，包含后缀的.graphml，必须输入该参数
+-f，--file：输入文件的名称，包含后缀的.graphml，必须输入该参数
 
--o，-output：输出文件的名称，如不输入，则自动命名为“输入文件名” + “-Mininet-Topo.py”
+-o，--output：输出文件的名称，如不输入，则自动命名为“输入文件名” + “-Mininet-Topo.py”
 
--b，-bw，-bandwidth：当部分拓扑的链路未提供带宽数据时，使用默认带宽，如不输入，默认为128Mbps
+-b，--bw，--bandwidth：当部分拓扑的链路未提供带宽数据时，使用默认带宽，如不输入，默认为128Mbps
 
--c，-controller：控制器的IP地址，如不输入，默认为127.0.0.1
+-c，--controller：控制器的IP地址，如不输入，默认为127.0.0.1
 
--p，-port：控制器与Mininet连接的端口号，如不输入，默认为6633
+-p，--port：控制器与Mininet连接的端口号，如不输入，默认为6633
+
+-s，--stp：该选项无附带参数，用于在OpenvSwitch上启用生成树协议（STP）以解决环路问题，运行带STP的Mininet拓扑时，拓扑代码将提示需要额外时间以让控制器学习生成树
 
 ## 改进效果
 
@@ -57,6 +60,10 @@ python GraphML-to-Mininet.py -参数 参数值
 4、修复了无法读取链路带宽的问题，本项目支持读取并设置.graphml拓扑中的带宽信息，若链路节点的带宽为一个范围，则带宽被设为范围最大值和最小值的平均数。
 
 5、修改了代码的样式，现在生成的拓扑脚本与Miniedit导出的风格一致。
+
+## 项目更新
+
+2022-05-11：增加了对于拓扑环路的STP协议支持
 
 # Graphml-To-Mininet (EN)
 
@@ -84,21 +91,24 @@ python GraphML-to-Mininet.py -argument value
 
 #### Multiple Operations
 
-./gentopo.sh
+./gen_topo.sh
 
 This will convert all .graphml files in the same folder to Mininet topologies. They will be put in the /mini-topologies folder under the current directory.
+The generated topologies by this shell script will support STP by default. To generate STP-disabled topologies, you can modify and Remove the "--stp" option in  the script "gen_topo.sh".
 
 #### Arguments (Only for single operation)
 
--f, -file: Input file name including ".graphml". This argument is required.
+-f, --file: Input file name including ".graphml". This argument is required.
 
--o, -output: Output file name, if not exist, the output file will be named as "{$Input_File_Name}" + "-Mininet-Topo.py"
+-o, --output: Output file name, if not exist, the output file will be named as "{$Input_File_Name}" + "-Mininet-Topo.py"
 
--b, -bw, -bandwidth: Use this to set the bandwidth if some of the link bandwidth data is missing in .graphml, default 128Mbps.
+-b, --bw, --bandwidth: Use this to set the bandwidth if some of the link bandwidth data is missing in .graphml, default 128Mbps.
 
--c, -controller: Remote SDN controller IP address, default 127.0.0.1.
+-c, --controller: Remote SDN controller IP address, default 127.0.0.1.
 
--p, -port: The port number for controller to communicate with Mininet, default 6633.
+-p, --port: The port number for controller to communicate with Mininet, default 6633.
+
+-s, --stp: Enable Spanning Tree Protocol (STP) to OpenvSwitch for loops. When running topologire, the STP enabled scripts will inform that the controller needs extra time to generate spanning trees. No following arguments is required for this option.
 
 ## Performance Improvements
 
@@ -115,3 +125,7 @@ This code can convert and generate all 261 topologies in topology zoo dataset co
 4. Support the bandwidth setting from original topology data. If a link bandwidth ranges in an interval, then the bandwidth is the average of the mininum and the maxinum of the interval.
 
 5. Improved the code style to be consistant with the Mininet - Miniedit - export L2 scripts option.
+
+## Project Updates
+
+2022-05-11: Update spanning tree protocol supports for topology loops.
