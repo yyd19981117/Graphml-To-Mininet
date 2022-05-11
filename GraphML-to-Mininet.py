@@ -2,7 +2,7 @@
 
 #################################################################################
 #
-# GraphML-Topo-to-Mininet-Network-Generator
+# GraphML-to-Mininet
 #
 # Parses Network Topologies in GraphML format from the Internet Topology Zoo.
 # A python file for creating Mininet Topologies will be created as Output.
@@ -54,6 +54,9 @@ controller_port = ''
 ip_host_base = -1
 ip_switch_base = 7
 
+# Enable spanning tree protocol (STP) to OpenvSwitch in Mininet
+enable_stp = 0
+
 # First check commandline arguments
 for i in range(len(argv)):
 
@@ -77,12 +80,16 @@ for i in range(len(argv)):
         controller_ip = argv[i+1]
     if argv[i] == '-p':
     	controller_port = argv[i+1]
-    if argv[i] == '-port':
+    if argv[i] == '--port':
     	controller_port = argv[i+1]
+    if argv[i] == '-s':
+    	enable_stp = 1
+    if argv[i] == '--stp':
+    	enable_stp = 1
 
 # Terminate when inputfile is missing
 if input_file_name == '':
-    sys.exit('\n\tNo input file was specified as argument!')
+    sys.exit('\033[1;31mError: No input file was specified as argument!\033[0m')
 
 # Define string fragments for output later on
 outputstring_1 = '''#!/usr/bin/python
@@ -138,7 +145,11 @@ outputstring_4a='''
     info( '\\n\033[1;36m*** Post configure switches and hosts\033[0m\\n')\n
 '''
 
-outputstring_4b = '''
+outputstring_4b='''
+    info( '\033[1;36m*** Wait while enabling STP to OpenvSwitch\033[0m\\n')
+'''
+
+outputstring_4c='''
     CLI(net)
     net.stop()
 
@@ -502,12 +513,39 @@ for i in range(0, len(id_node_name_dict)):
 	switch_addr += addr
 
 outputstring_to_be_exported += switch_addr
-outputstring_to_be_exported += outputstring_4b
+
+if enable_stp:
+	stp_time = 25 + int(len(id_node_name_dict) * 1.2)
+	outputstring_to_be_exported += outputstring_4b
+	stp_wait = ''
+	stp_wait += "    info( '\033[1;33m*** Expected time: "
+	stp_wait += str(stp_time / 60)
+	stp_wait += ' min '
+	stp_wait += str(stp_time % 60)
+	stp_wait += ' sec'
+	stp_wait += "\033[0m\\n')\n"
+	outputstring_to_be_exported += stp_wait
+
+	stp_active = ''
+	for i in range(0, len(id_node_name_dict)):
+		stp_command = '    '
+		stp_command += id_node_name_dict[str(i)]
+		stp_command += ".cmd('ovs-vsctl set bridge s"
+		stp_command += str(i+1)
+		stp_command += " stp_enable=true')\n"
+		stp_active += stp_command
+
+	stp_active += '\n    time.sleep('
+	stp_active += str(stp_time)
+	stp_active += ')\n'
+	outputstring_to_be_exported += stp_active
+
+outputstring_to_be_exported += outputstring_4c
 
 # GENERATION FINISHED, WRITE STRING TO FILE
 outputfile = ''
 if output_file_name == '':
-    output_file_name = input_file_name + '-Mininet-Topo.py'
+    output_file_name = re.split("\.", input_file_name)[0] + '.py'
 
 outputfile = open(output_file_name, 'w')
 outputfile.write(outputstring_to_be_exported)
