@@ -16,6 +16,8 @@ https://github.com/uniba-ktr/assessing-mininet/blob/master/parser/GraphML-Topo-t
 
 点击：Download current dataset as a zip archive
 
+或使用本项目中的备用数据集
+
 解压可得graphml格式的拓扑图，用于转换，以便在Mininet中仿真
 
 如下显示了本程序的两种用法：
@@ -80,6 +82,8 @@ Reference code for this project is at the above URL. In this project, all of the
 Use topology zoo dataset: http://www.topology-zoo.org/dataset.html
 
 Check: Download current dataset as a zip archive
+
+Or: Use the alternate dataset in this program
 
 Unzip to obtain the topology in .graphml format, then use this program to convert it to Mininet topology scripts.
 
