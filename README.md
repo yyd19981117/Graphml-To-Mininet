@@ -22,7 +22,7 @@ https://github.com/uniba-ktr/assessing-mininet/blob/master/parser/GraphML-Topo-t
 
 git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
 
-sudo ./install
+sudo ./install.sh
 
 程序会自动解压所有的.graphml格式拓扑，位于当前位置的mini-topologies文件夹下。
 
@@ -106,7 +106,8 @@ Check: Download current dataset as a zip archive
 #### (2) Use the alternate dataset in this repository
 
 git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
-sudo ./install
+
+sudo ./install.sh
 
 To unzip and obtain the topology in .graphml format in "/mini-topologies" path.
 
