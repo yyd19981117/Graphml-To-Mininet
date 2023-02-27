@@ -12,13 +12,18 @@ https://github.com/uniba-ktr/assessing-mininet/blob/master/parser/GraphML-Topo-t
 
 ### 基本用法
 
+（1）下载数据集
+
 采用topology zoo的数据集：http://www.topology-zoo.org/dataset.html
 
 点击：Download current dataset as a zip archive
 
-或使用本项目中的备用数据集
+（2）使用本项目中的备用数据集
 
-解压可得graphml格式的拓扑图，用于转换，以便在Mininet中仿真
+git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
+sudo ./install
+
+程序会自动解压所有的.graphml格式拓扑，位于当前位置的mini-topologies文件夹下。
 
 如下显示了本程序的两种用法：
 
@@ -30,10 +35,10 @@ python GraphML-to-Mininet.py -参数 参数值
 
 ./gen_topo.sh
 
-此操作会将当前文件夹下所有的.graphml格式文件全转换为Mininet拓扑，并存放在当前目录的/mini-topologies下。
-该脚本生成的拓扑默认开启STP协议，可删除gen_topo.sh中的“--stp”选项，以生成不启用STP协议的拓扑。
+此操作会将mini-topologies下所有的.graphml格式文件全转换为Mininet拓扑，并存放在当前目录的/mini-topologies-done下。
+该脚本生成的拓扑默认开启RSTP协议，可删除gen_topo.sh中的“--stp”选项，以生成不启用RSTP协议的拓扑。
 
-#### 参数输入（仅对单次操作有效）
+#### 参数输入（仅对单次操作有效，批量操作请按照这些参数对应设置gen_topo.sh中的命令）
 
 -f，--file：输入文件的名称，包含后缀的.graphml，必须输入该参数
 
@@ -45,7 +50,15 @@ python GraphML-to-Mininet.py -参数 参数值
 
 -p，--port：控制器与Mininet连接的端口号，如不输入，默认为6633
 
--s，--stp：该选项无附带参数，用于在OpenvSwitch上启用生成树协议（STP）以解决环路问题，运行带STP的Mininet拓扑时，拓扑代码将提示需要额外时间以让控制器学习生成树
+-s，--stp：该选项无附带参数，用于在OpenvSwitch上启用快速生成树协议（RSTP）以解决环路问题，运行带STP的Mininet拓扑时，拓扑代码将提示需要额外时间以让控制器学习生成树
+
+--cli：带有该参数时，Mininet脚本中带有CLI（net），以便在仿真完成后进入命令行，不直接退出
+
+### 后续步骤（拓扑生成后，程序将提示）
+
+在转换完成的Mininet拓扑中，会生成一块带“#”注释的USER SIMULATION CODE HERE区域
+
+在这块区域，用户可自定义添加仿真代码，以让Mininet仿真自动进行
 
 ## 改进效果
 
@@ -66,6 +79,8 @@ python GraphML-to-Mininet.py -参数 参数值
 ## 项目更新
 
 2022-05-11：增加了对于拓扑环路的STP协议支持
+2022-05-24：更新ReadMe
+2023-02-27：增加了“添加用户仿真代码”提示、开启安装功能，优化体验
 
 # Graphml-To-Mininet (EN)
 
@@ -79,13 +94,18 @@ Reference code for this project is at the above URL. In this project, all of the
 
 ### Basic
 
+(1) Download the dataset
+
 Use topology zoo dataset: http://www.topology-zoo.org/dataset.html
 
 Check: Download current dataset as a zip archive
 
-Or: Use the alternate dataset in this program
+(2) Use the alternate dataset in this repository
 
-Unzip to obtain the topology in .graphml format, then use this program to convert it to Mininet topology scripts.
+git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
+sudo ./install
+
+To unzip and obtain the topology in .graphml format in "/mini-topologies" path.
 
 Here shows two ways to use this program.
 
@@ -97,8 +117,8 @@ python GraphML-to-Mininet.py -argument value
 
 ./gen_topo.sh
 
-This will convert all .graphml files in the same folder to Mininet topologies. They will be put in the /mini-topologies folder under the current directory.
-The generated topologies by this shell script will support STP by default. To generate STP-disabled topologies, you can modify and Remove the "--stp" option in  the script "gen_topo.sh".
+This will convert all .graphml files at path "/mini-topologies" into runnable Mininet scripts. They will be put in the "/mini-topologies-done" folder under the current directory.
+The generated topologies by this shell script will support RSTP by default. To generate STP-disabled topologies, you can modify and Remove the "--stp" option in  the script "gen_topo.sh".
 
 #### Arguments (Only for single operation)
 
@@ -113,6 +133,14 @@ The generated topologies by this shell script will support STP by default. To ge
 -p, --port: The port number for controller to communicate with Mininet, default 6633.
 
 -s, --stp: Enable Spanning Tree Protocol (STP) to OpenvSwitch for loops. When running topologire, the STP enabled scripts will inform that the controller needs extra time to generate spanning trees. No following arguments is required for this option.
+
+--cli: Enable to set CLI(net) in Mininet scripts, avoiding direct exiting after simulation ends.
+
+### Next Step (The program will prompt when topology conversion is completed)
+
+In the converted Mininet topology, a "USER SIMULATION CODE HERE" area with "#" annotation will be generated
+
+In this area, users can customize and add simulation code to make Mininet simulation automatically
 
 ## Performance Improvements
 
@@ -133,3 +161,5 @@ This code can convert and generate all 261 topologies in topology zoo dataset co
 ## Project Updates
 
 2022-05-11: Update spanning tree protocol supports for topology loops.
+2022-05-24: Update README.
+2023-02-27: Add the "Add user emulation code" prompt, enable installation, optimize user experience.
