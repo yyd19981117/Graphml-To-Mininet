@@ -57,6 +57,12 @@ ip_switch_base = 7
 # Enable spanning tree protocol (STP) to OpenvSwitch in Mininet
 enable_stp = 0
 
+# Enable Mininet CLI after simulation code complete, else exit immediately
+enable_cli = 0
+
+# Enable tips for user, telling them to add their own simulation code
+enable_tip = 1
+
 # First check commandline arguments
 for i in range(len(argv)):
 
@@ -86,6 +92,10 @@ for i in range(len(argv)):
     	enable_stp = 1
     if argv[i] == '--stp':
     	enable_stp = 1
+    if argv[i] == '--cli':
+    	enable_cli = 1
+    if argv[i] == '--notip':
+    	enable_tip = 0
 
 # Terminate when inputfile is missing
 if input_file_name == '':
@@ -146,17 +156,29 @@ outputstring_4a='''
 '''
 
 outputstring_4b='''
-    info( '\033[1;36m*** Wait while enabling STP to OpenvSwitch\033[0m\\n')
+    info( '\033[1;36m*** Wait while enabling RSTP to OpenvSwitch\033[0m\\n')
+'''
+
+user_simulation_code_area='''
+    ####################################
+    #### USER SIMULATION CODE HERE #####
+    ####################################
+    
+    # Your automatic simulation code.
+    
+    ####################################
 '''
 
 outputstring_4c='''
     CLI(net)
+'''
+
+outputstring_4d='''
     net.stop()
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
     myNetwork()
-
 '''
 
 outputstring_5 = '''
@@ -540,7 +562,12 @@ if enable_stp:
 	stp_active += ')\n'
 	outputstring_to_be_exported += stp_active
 
-outputstring_to_be_exported += outputstring_4c
+outputstring_to_be_exported += user_simulation_code_area
+
+if enable_cli:
+	outputstring_to_be_exported += outputstring_4c
+
+outputstring_to_be_exported += outputstring_4d
 
 # GENERATION FINISHED, WRITE STRING TO FILE
 outputfile = ''
@@ -554,3 +581,8 @@ outputfile.close()
 print "Generate \033[0;33m" + input_file_name + "\033[0m SUCCESSFUL! \033[0;36m" + \
 	  "(" + str(node_count) + " Switches, " + \
 	  str(edge_count) + " Links)\033[0m"
+
+if enable_tip:
+	print ""
+	print "*** NEXT STEP ***"
+	print "*** PLease Place Your Additional Simulation Code in the <USER SIMULATION CODE HERE> area of .py Runnable Topology File. ***"
