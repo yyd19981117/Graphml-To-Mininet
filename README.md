@@ -12,15 +12,16 @@ https://github.com/uniba-ktr/assessing-mininet/blob/master/parser/GraphML-Topo-t
 
 ### 基本用法
 
-（1）下载数据集
+#### （1）下载数据集
 
 采用topology zoo的数据集：http://www.topology-zoo.org/dataset.html
 
 点击：Download current dataset as a zip archive
 
-（2）使用本项目中的备用数据集
+#### （2）使用本项目中的备用数据集
 
 git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
+
 sudo ./install
 
 程序会自动解压所有的.graphml格式拓扑，位于当前位置的mini-topologies文件夹下。
@@ -94,13 +95,13 @@ Reference code for this project is at the above URL. In this project, all of the
 
 ### Basic
 
-(1) Download the dataset
+#### (1) Download the dataset
 
 Use topology zoo dataset: http://www.topology-zoo.org/dataset.html
 
 Check: Download current dataset as a zip archive
 
-(2) Use the alternate dataset in this repository
+#### (2) Use the alternate dataset in this repository
 
 git clone https://github.com/yyd19981117/Graphml-To-Mininet.git
 sudo ./install
