@@ -80,7 +80,9 @@ python GraphML-to-Mininet.py -参数 参数值
 ## 项目更新
 
 2022-05-11：增加了对于拓扑环路的STP协议支持
+
 2022-05-24：更新ReadMe
+
 2023-02-27：增加了“添加用户仿真代码”提示、开启安装功能，优化体验
 
 # Graphml-To-Mininet (EN)
@@ -162,5 +164,7 @@ This code can convert and generate all 261 topologies in topology zoo dataset co
 ## Project Updates
 
 2022-05-11: Update spanning tree protocol supports for topology loops.
+
 2022-05-24: Update README.
+
 2023-02-27: Add the "Add user emulation code" prompt, enable installation, optimize user experience.
